@@ -21,7 +21,7 @@ class Menu(tk.Frame):
 
         btn("Класичні шашки", "#4caf50", on_play)
         btn("Турецькі шашки", "#ff9800",
-            lambda: messagebox.showinfo("В розробці", "Скоро буде!"))
+            lambda: messagebox.showinfo("Турки працюють?", "Спробуйте пізніше!"))
         tk.Button(self, text="САМОЗНИЩЕННЯ", font=("Helvetica",14), width=20,
                   bg="#f44336", fg="white", cursor="hand2",
                   command=parent.quit).pack(pady=(40,0))
