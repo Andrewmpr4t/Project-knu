@@ -49,3 +49,4 @@ def reset(self):
 def click(self, e):
         """Обробляє клік по дошці."""
         c, r = e.x//SQ, e.y//SQ
+        if not (0<=r<8 and 0<=c<8): return
