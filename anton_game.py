@@ -45,3 +45,7 @@ def reset(self):
         self.forced = None  # шашка, що продовжує серію боїв
         self.jumps  = all_jumps(b, 1)
         self.draw()
+
+def click(self, e):
+        """Обробляє клік по дошці."""
+        c, r = e.x//SQ, e.y//SQ
