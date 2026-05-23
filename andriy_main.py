@@ -15,7 +15,7 @@ class Menu(tk.Frame):
     """Головне меню: вибір режиму гри або вихід."""
     def __init__(self, parent, on_play):
         super().__init__(parent, bg=COLORS["bg"])
-        tk.Label(self, text="ЧОТКІ ШАШКИ", font=("Helvetica",36,"bold"),
+        tk.Label(self, text="НАШІ ШАШКИ", font=("Helvetica",36,"bold"),
                  fg="white", bg=COLORS["bg"]).pack(pady=(120,50))
 
         # Хелпер — щоб не дублювати код для кожної кнопки
@@ -27,7 +27,7 @@ class Menu(tk.Frame):
         btn("Класичні шашки", "#4caf50", on_play)
         btn("Турецькі шашки", "#ff9800",
             lambda: messagebox.showinfo("В розробці", "Скоро буде!"))
-        tk.Button(self, text="Вихід", font=("Helvetica",14), width=20,
+        tk.Button(self, text="САМОЗНИЩЕННЯ", font=("Helvetica",14), width=20,
                   bg="#f44336", fg="white", cursor="hand2",
                   command=parent.quit).pack(pady=(40,0))
 
