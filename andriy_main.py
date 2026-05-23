@@ -17,8 +17,6 @@ class Menu(tk.Frame):
         super().__init__(parent, bg=COLORS["bg"])
         tk.Label(self, text="НАШІ ШАШКИ", font=("Helvetica",36,"bold"),
                  fg="white", bg=COLORS["bg"]).pack(pady=(120,50))
-
-        # Хелпер — щоб не дублювати код для кожної кнопки
         def btn(text, color, cmd):
             tk.Button(self, text=text, font=("Helvetica",16,"bold"), width=25, height=2,
                       bg=color, fg="white", activebackground=color, cursor="hand2",
