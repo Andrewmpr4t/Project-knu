@@ -1,9 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
-# Розмір однієї клітинки дошки в пікселях
 SQ = 80
 
-# Всі кольори інтерфейсу в одному місці
 COLORS = {
     "light": "#f0d9b5", "dark":  "#b58863", "bg":   "#2b2b2b",
     "p1":    "#ffffff", "p2":    "#262626", "king": "#ffd700",
@@ -12,7 +10,6 @@ COLORS = {
 
 
 class Menu(tk.Frame):
-    """Головне меню: вибір режиму гри або вихід."""
     def __init__(self, parent, on_play):
         super().__init__(parent, bg=COLORS["bg"])
         tk.Label(self, text="НАШІ ШАШКИ", font=("Helvetica",36,"bold"),
