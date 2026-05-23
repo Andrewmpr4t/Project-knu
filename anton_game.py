@@ -50,3 +50,11 @@ def click(self, e):
         """Обробляє клік по дошці."""
         c, r = e.x//SQ, e.y//SQ
         if not (0<=r<8 and 0<=c<8): return
+
+        # Якщо шашка виділена — намагаємось зробити хід
+        if self.sel:
+            if (r,c) in self.moves:
+                self.do_move(self.sel[0], self.sel[1], r, c); return
+            # Клік по тій самій шашці — знімаємо виділення (якщо не в серії боїв)
+            if (r,c) == self.sel and not self.forced:
+                self.sel = None; self.moves = {}; self.draw(); return
