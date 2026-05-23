@@ -25,4 +25,30 @@ class Menu(tk.Frame):
         tk.Button(self, text="САМОЗНИЩЕННЯ", font=("Helvetica",14), width=20,
                   bg="#f44336", fg="white", cursor="hand2",
                   command=parent.quit).pack(pady=(40,0))
+class App(tk.Tk):
+   
+    def __init__(self):
+        super().__init__()
+        
+        from anton_game import Game
+
+        self.title("Наші Шашки")
+        self.geometry(f"{8*SQ}x{8*SQ+76}"); self.resizable(False, False)
+        self.menu = Menu(self, self.play)
+        self.game = Game(self, self.show_menu)
+        self.show_menu()
+
+    def show_menu(self):
+        self.game.pack_forget()
+        self.menu.pack(fill=tk.BOTH, expand=True)
+
+    def play(self):
+        self.menu.pack_forget()
+        self.game.reset()
+        self.game.pack(fill=tk.BOTH, expand=True)
+
+
+
+if __name__ == "__main__":
+    App().mainloop()
 
