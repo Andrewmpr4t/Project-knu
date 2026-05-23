@@ -27,3 +27,21 @@ class Game(tk.Frame):
                             fg="white", bg=COLORS["bg"])
         self.lbl.pack(side=tk.LEFT)
         self.reset()
+
+
+def reset(self):
+        """Скидає дошку до початкового стану."""
+        b = [[0]*8 for _ in range(8)]
+        for r in range(3):    # чорні шашки — рядки 0-2
+            for c in range(8):
+                if (r+c)%2: b[r][c] = 2
+        for r in range(5,8):  # білі шашки — рядки 5-7
+            for c in range(8):
+                if (r+c)%2: b[r][c] = 1
+        self.board = b
+        self.turn   = 1     # білі ходять першими
+        self.sel    = None  # виділена шашка (r,c)
+        self.moves  = {}    # доступні ходи для виділеної шашки
+        self.forced = None  # шашка, що продовжує серію боїв
+        self.jumps  = all_jumps(b, 1)
+        self.draw()
