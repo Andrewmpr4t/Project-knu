@@ -100,3 +100,5 @@ def click(self, e):
             winner = "Білі" if self.turn==2 else "Чорні"
             messagebox.showinfo("ГГ", f"{winner} перемогли!")
             self.reset()
+    def draw(self):
+        """Перемальовує всю дошку та індикатор ходу."""
