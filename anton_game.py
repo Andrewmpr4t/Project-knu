@@ -1,6 +1,10 @@
 import tkinter as tk
 from tkinter import messagebox
+from ivan_logic import get_jumps, get_moves, all_jumps, has_any_move, owner, is_king
+
 from andriy_main import SQ, COLORS
+
+
 class Game(tk.Frame):
     """Екран гри: дошка, логіка кліків, малювання."""
     def __init__(self, parent, on_menu):
@@ -28,8 +32,7 @@ class Game(tk.Frame):
         self.lbl.pack(side=tk.LEFT)
         self.reset()
 
-
-def reset(self):
+    def reset(self):
         """Скидає дошку до початкового стану."""
         b = [[0]*8 for _ in range(8)]
         for r in range(3):    # чорні шашки — рядки 0-2
@@ -46,7 +49,7 @@ def reset(self):
         self.jumps  = all_jumps(b, 1)
         self.draw()
 
-def click(self, e):
+    def click(self, e):
         """Обробляє клік по дошці."""
         c, r = e.x//SQ, e.y//SQ
         if not (0<=r<8 and 0<=c<8): return
@@ -58,6 +61,7 @@ def click(self, e):
             # Клік по тій самій шашці — знімаємо виділення (якщо не в серії боїв)
             if (r,c) == self.sel and not self.forced:
                 self.sel = None; self.moves = {}; self.draw(); return
+
         # Вибираємо шашку поточного гравця
         if owner(self.board[r][c]) == self.turn:
             if self.forced and self.forced != (r,c): return  # тільки продовження серії
@@ -74,7 +78,7 @@ def click(self, e):
         p = self.board[sr][sc]
         self.board[er][ec] = p; self.board[sr][sc] = 0
 
-# Перетворення на дамку при досягненні останнього рядка
+        # Перетворення на дамку при досягненні останнього рядка
         made_king = False
         if p==1 and er==0: self.board[er][ec]=3; made_king=True
         elif p==2 and er==7: self.board[er][ec]=4; made_king=True
@@ -87,24 +91,43 @@ def click(self, e):
                 if nj:
                     self.sel=(er,ec); self.moves=nj
                     self.forced=(er,ec); self.jumps={(er,ec):nj}
-                    self.draw(); return
+                    self.draw()
+                    self.update_music_phase()  # оновлення музики при продовженні серії боїв
+                    return
 
         # Завершуємо хід, передаємо чергу
         self.sel=None; self.moves={}; self.forced=None
         self.turn = 3-self.turn
         self.jumps = all_jumps(self.board, self.turn)
         self.draw()
+        self.update_music_phase()  # оновлення музики після кожного ходу
 
         # Перевіряємо переможця: суперник не може ходити — програв
         if not self.jumps and not has_any_move(self.board, self.turn):
             winner = "Білі" if self.turn==2 else "Чорні"
             messagebox.showinfo("ГГ", f"{winner} перемогли!")
             self.reset()
+
+    def update_music_phase(self):
+        """Підраховує шашки і змінює музику через головний клас."""
+        white_pieces = sum(row.count(1) + row.count(3) for row in self.board)
+        black_pieces = sum(row.count(2) + row.count(4) for row in self.board)
+        total_pieces = white_pieces + black_pieces
+
+        # Отримуємо доступ до класу App (master для Frame)
+        app = self.master
+        if white_pieces < 3 or black_pieces < 3:
+            app.audio.play_phase(3)   # Напружена кінцівка
+        elif total_pieces < 16:
+            app.audio.play_phase(2)   # Середина гри
+        else:
+            app.audio.play_phase(1)   # Початок гри
+
     def draw(self):
         """Перемальовує всю дошку та індикатор ходу."""
         cv = self.canvas; cv.delete("all")
 
-# Оновлюємо кружок і текст індикатора ходу
+        # Оновлюємо кружок і текст індикатора ходу
         self.dot.delete("all")
         self.dot.create_oval(2,2,18,18, fill=COLORS["p1" if self.turn==1 else "p2"],
                              outline="#888", width=1)
