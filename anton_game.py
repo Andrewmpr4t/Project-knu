@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import messagebox
-from ivan_logic import get_jumps, get_moves, all_jumps, has_any_move, owner, is_king
 
 from andriy_main import SQ, COLORS
 
