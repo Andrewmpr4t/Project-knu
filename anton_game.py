@@ -113,3 +113,5 @@ def click(self, e):
         for r in range(8):
             for c in range(8):
                 # Колір клітинки: базовий / виділена / доступний хід
+                col = COLORS["light"] if (r+c)%2==0 else COLORS["dark"]
+                if self.sel==(r,c): col=COLORS["sel"]
