@@ -73,3 +73,30 @@ def click(self, e):
         jumped = self.moves[(er,ec)]  # позиція збитої шашки або None
         p = self.board[sr][sc]
         self.board[er][ec] = p; self.board[sr][sc] = 0
+
+# Перетворення на дамку при досягненні останнього рядка
+        made_king = False
+        if p==1 and er==0: self.board[er][ec]=3; made_king=True
+        elif p==2 and er==7: self.board[er][ec]=4; made_king=True
+
+        if jumped:
+            self.board[jumped[0]][jumped[1]] = 0  # прибираємо збиту шашку
+            # Якщо не стали дамкою — перевіряємо продовження серії боїв
+            if not made_king:
+                nj = get_jumps(self.board, er, ec, self.turn)
+                if nj:
+                    self.sel=(er,ec); self.moves=nj
+                    self.forced=(er,ec); self.jumps={(er,ec):nj}
+                    self.draw(); return
+
+        # Завершуємо хід, передаємо чергу
+        self.sel=None; self.moves={}; self.forced=None
+        self.turn = 3-self.turn
+        self.jumps = all_jumps(self.board, self.turn)
+        self.draw()
+
+        # Перевіряємо переможця: суперник не може ходити — програв
+        if not self.jumps and not has_any_move(self.board, self.turn):
+            winner = "Білі" if self.turn==2 else "Чорні"
+            messagebox.showinfo("ГГ", f"{winner} перемогли!")
+            self.reset()
