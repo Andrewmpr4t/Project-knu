@@ -58,6 +58,18 @@ def click(self, e):
             # Клік по тій самій шашці — знімаємо виділення (якщо не в серії боїв)
             if (r,c) == self.sel and not self.forced:
                 self.sel = None; self.moves = {}; self.draw(); return
-# Вибираємо шашку поточного гравця
+        # Вибираємо шашку поточного гравця
         if owner(self.board[r][c]) == self.turn:
             if self.forced and self.forced != (r,c): return  # тільки продовження серії
+            if self.jumps:
+                if (r,c) not in self.jumps: return           # обов'язковий бій
+                self.moves = self.jumps[(r,c)]
+            else:
+                self.moves = get_moves(self.board, r, c)
+            self.sel = (r,c); self.draw()
+
+    def do_move(self, sr, sc, er, ec):
+        """Виконує хід із (sr,sc) в (er,ec)."""
+        jumped = self.moves[(er,ec)]  # позиція збитої шашки або None
+        p = self.board[sr][sc]
+        self.board[er][ec] = p; self.board[sr][sc] = 0
