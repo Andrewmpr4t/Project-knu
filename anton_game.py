@@ -102,3 +102,4 @@ def click(self, e):
             self.reset()
     def draw(self):
         """Перемальовує всю дошку та індикатор ходу."""
+        cv = self.canvas; cv.delete("all")
