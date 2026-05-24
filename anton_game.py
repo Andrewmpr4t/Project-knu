@@ -115,3 +115,7 @@ def click(self, e):
                 # Колір клітинки: базовий / виділена / доступний хід
                 col = COLORS["light"] if (r+c)%2==0 else COLORS["dark"]
                 if self.sel==(r,c): col=COLORS["sel"]
+                elif (r,c) in self.moves: col=COLORS["move"]
+                x,y = c*SQ, r*SQ
+                cv.create_rectangle(x,y,x+SQ,y+SQ, fill=col, outline="")
+
