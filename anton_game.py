@@ -103,3 +103,8 @@ def click(self, e):
     def draw(self):
         """Перемальовує всю дошку та індикатор ходу."""
         cv = self.canvas; cv.delete("all")
+
+# Оновлюємо кружок і текст індикатора ходу
+        self.dot.delete("all")
+        self.dot.create_oval(2,2,18,18, fill=COLORS["p1" if self.turn==1 else "p2"],
+                             outline="#888", width=1)
