@@ -108,3 +108,8 @@ def click(self, e):
         self.dot.delete("all")
         self.dot.create_oval(2,2,18,18, fill=COLORS["p1" if self.turn==1 else "p2"],
                              outline="#888", width=1)
+        self.lbl.config(text="Хід: Білі" if self.turn==1 else "Хід: Чорні")
+
+        for r in range(8):
+            for c in range(8):
+                # Колір клітинки: базовий / виділена / доступний хід
