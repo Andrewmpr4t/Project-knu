@@ -141,4 +141,13 @@ class Game(tk.Frame):
                 elif (r,c) in self.moves: col=COLORS["move"]
                 x,y = c*SQ, r*SQ
                 cv.create_rectangle(x,y,x+SQ,y+SQ, fill=col, outline="")
+                # Малюємо шашку та корону дамки
+                p = self.board[r][c]
+                if p:
+                    cv.create_oval(x+12,y+12,x+SQ-12,y+SQ-12,
+                                   fill=COLORS["p1" if p in(1,3) else "p2"],
+                                   outline="#1a1a1a", width=2)
+                    if is_king(p):  # золоте кільце всередині = дамка
+                        cv.create_oval(x+28,y+28,x+SQ-28,y+SQ-28,
+                                       outline=COLORS["king"], width=4)
 
