@@ -7,7 +7,28 @@ COLORS = {
     "p1":    "#ffffff", "p2":    "#262626", "king": "#ffd700",
     "sel":   "#7fa650", "move":  "#99cc66",
 }
+class AudioManager:
+    """Клас для керування фоновою музикою залежно від етапу гри."""
+    def __init__(self):
+        pygame.mixer.init()
+        
+       
+        self.track_start = "start.mp3" 
+        self.track_mid = "mid.mp3"   
+        self.track_fin = "fin.mp3"    
+        # ===================================================================
+        
+        self.current_phase = 0  
 
+    def play_phase(self, phase):
+        """Вмикає трек відповідно до ігрової фази, якщо він ще не грає."""
+        if phase == self.current_phase:
+            return  
+
+        track = None
+        if phase == 1 and self.track_start: track = self.track_start
+        elif phase == 2 and self.track_mid: track = self.track_mid
+        elif phase == 3 and self.track_fin: track = self.track_fin
 
 class Menu(tk.Frame):
     def __init__(self, parent, on_play):
@@ -34,11 +55,14 @@ class App(tk.Tk):
 
         self.title("Наші Шашки")
         self.geometry(f"{8*SQ}x{8*SQ+76}"); self.resizable(False, False)
+        self.audio = AudioManager()
         self.menu = Menu(self, self.play)
         self.game = Game(self, self.show_menu)
         self.show_menu()
 
     def show_menu(self):
+        pygame.mixer.music.stop()
+        self.audio.current_phase = 0
         self.game.pack_forget()
         self.menu.pack(fill=tk.BOTH, expand=True)
 
@@ -46,8 +70,8 @@ class App(tk.Tk):
         self.menu.pack_forget()
         self.game.reset()
         self.game.pack(fill=tk.BOTH, expand=True)
-
-
+        self.audio.play_phase(1)
+        
 
 if __name__ == "__main__":
     App().mainloop()
