@@ -1,8 +1,10 @@
 import tkinter as tk
 from tkinter import messagebox
-
-from andriy_main import SQ, COLORS
 from ivan_logic import get_jumps, get_moves, all_jumps, has_any_move, owner, is_king
+
+# Кольори беремо з andriy_main через імпорт при запуску
+from andriy_main import SQ, COLORS
+
 
 class Game(tk.Frame):
     """Екран гри: дошка, логіка кліків, малювання."""
@@ -140,6 +142,7 @@ class Game(tk.Frame):
                 elif (r,c) in self.moves: col=COLORS["move"]
                 x,y = c*SQ, r*SQ
                 cv.create_rectangle(x,y,x+SQ,y+SQ, fill=col, outline="")
+
                 # Малюємо шашку та корону дамки
                 p = self.board[r][c]
                 if p:
@@ -149,4 +152,3 @@ class Game(tk.Frame):
                     if is_king(p):  # золоте кільце всередині = дамка
                         cv.create_oval(x+28,y+28,x+SQ-28,y+SQ-28,
                                        outline=COLORS["king"], width=4)
-
